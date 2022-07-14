@@ -14,7 +14,7 @@ const navbarStyles = {
         flexGrow: "1",
         textDecoration: "none",
         cursor: "pointer",
-        color: "white"
+        color: "#EF767A"
       },
 
     accountIcon:{
