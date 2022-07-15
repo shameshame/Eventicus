@@ -28,7 +28,7 @@ const navbarStyles = {
    
     link: {
       textDecoration: "none",
-      color: "white",
+      color: "#F7F7F9",
       fontSize: "16px",
       
       "&:hover": {

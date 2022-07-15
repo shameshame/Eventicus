@@ -8,15 +8,10 @@ import navbarStyles from "../js/navbarStyles";
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import DesktopNav from "./DesktopNav" 
 import MobileNav from "./MobileNav";
+import {logoTheme} from "./Themes"
 
 const theme=createTheme()
-const logoTheme= createTheme({
-  typography:{
-      fontFamily: ["Edu QLD Beginner", "cursive"].join(','),
-      fontSize: 20,
-      fontWeight:500
-  }
-});
+
 
 
 function Navbar(props) {
@@ -28,8 +23,8 @@ function Navbar(props) {
             <CssBaseline />
           <Toolbar>
             <ThemeProvider theme={logoTheme}>
-               <Typography variant="h5" component={Link} to="/" style={navbarStyles.logo}>
-                  Eventicus
+               <Typography  variant="h5" component={Link} to="/" style={navbarStyles.logo}>
+                  EVENTICUS
                </Typography>
            </ThemeProvider>
            {isMobile ? <MobileNav/> :<DesktopNav/>}

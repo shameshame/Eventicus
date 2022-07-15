@@ -11,6 +11,7 @@ import Home from "./components/Home"
 import Navbar from './components/Navbar';
 import EventDetails from './components/EventDetails';
 import NotFoundPage from './components/NotFoundPage';
+import Footer from './components/Footer';
 
 
 
@@ -21,6 +22,7 @@ function App() {
       <UserContextProvider>
            <BrowserRouter>
              <Navbar/>
+             
               <Routes>
                 <Route path="/">
                   <Route path="/" element={<Home />}/>
@@ -31,6 +33,7 @@ function App() {
                   <Route path="*" element={<NotFoundPage />} />
                 </Route>
               </Routes>
+              <Footer/>
             </BrowserRouter>
       </UserContextProvider>
     </EventContextProvider>

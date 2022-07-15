@@ -73,7 +73,9 @@ function Event(props) {
                     <Button size="small" onClick={showMoreHandler}  sx={{mt:2,backgroundColor:"#BB0A21",color:"white",":hover":{"bgcolor":"#F31634"}}} >
                       Show more
                     </Button>
-                   <Tooltip  title="Add to Favorites"> 
+                   
+                   {/* Improve readibility - ?: only once */}
+                   <Tooltip  title={location.pathname==="/"?"Add to Favorites":"Remove from favorites"}> 
                       <IconButton onClick={location.pathname==="/" ?addToFavorites:removeFromFavorites}>
                         {location.pathname==="/"?<StarIcon color="warning" sx={{mx:"auto",mt:2}} />:<DeleteIcon/>}
                      </IconButton>
