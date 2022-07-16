@@ -55,7 +55,7 @@ function Event(props) {
     
     
     return (
-       <Paper elevation={3} sx={{height: "100%",p:"20px"}}>
+      <Paper elevation={3} sx={{height: "100%",p:"20px"}}>
        
        <Grid sx={{ flexGrow: 1}}   container spacing = {2}>
            <Grid sx={{margin:"auto"}} item  md={5}>
@@ -73,17 +73,21 @@ function Event(props) {
                     <Button size="small" onClick={showMoreHandler}  sx={{mt:2,backgroundColor:"#BB0A21",color:"white",":hover":{"bgcolor":"#F31634"}}} >
                       Show more
                     </Button>
-                   
-                   {/* Improve readibility - ?: only once */}
-                   <Tooltip  title={location.pathname==="/"?"Add to Favorites":"Remove from favorites"}> 
-                      <IconButton onClick={location.pathname==="/" ?addToFavorites:removeFromFavorites}>
-                        {location.pathname==="/"?<StarIcon color="warning" sx={{mx:"auto",mt:2}} />:<DeleteIcon/>}
-                     </IconButton>
-                    </Tooltip>
-                 </Grid>
+
+                    {location.pathname==="/"
+                     ? <Tooltip  title="Add to Favorites"> 
+                           <IconButton onClick={addToFavorites}>
+                             <StarIcon color="warning" sx={{mx:"auto",mt:2}} />
+                          </IconButton>
+                       </Tooltip>
+                     : <Tooltip  title="Remove from favorites"> 
+                        <IconButton onClick={removeFromFavorites}>
+                         <DeleteIcon/>
+                       </IconButton>
+                    </Tooltip>}
+                  </Grid>
             </Grid>
-           
-        </Grid>
+         </Grid>
        
       </Paper>
     );

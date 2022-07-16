@@ -22,8 +22,7 @@ function App() {
       <UserContextProvider>
            <BrowserRouter>
              <Navbar/>
-             
-              <Routes>
+             <Routes>
                 <Route path="/">
                   <Route path="/" element={<Home />}/>
                   <Route path="/login" element={<Login />}/>

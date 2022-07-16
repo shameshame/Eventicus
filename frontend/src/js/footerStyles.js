@@ -1,18 +1,29 @@
+import {bottomNavTheme} from "../components/Themes"
+
 const footerStyles={
    general:{
     backgroundColor:"#071013",
-    textAlign:"center",
     position: "fixed",
     left: "0",
     bottom: "0",
-    
     width: "100%",
-    padding: "20px 0"
-
-   }, 
+    padding: "1.5rem 0",
     
-    logo:{
+  }, 
+
+  logo:{
+        textDecoration: "none",
+        position:"relative",
+        bottom:"0.8rem"
+
+    },
+
+    link:{
         textDecoration: "none"
+    },
+
+    icon:{
+        marginRight: "0.5rem"
     }
 
 

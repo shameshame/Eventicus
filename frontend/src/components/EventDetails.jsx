@@ -9,6 +9,7 @@ import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 import axios from "axios";
 import { createTheme,ThemeProvider } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 function EventDetails(props) {
     const {eventid}=useParams();
@@ -26,7 +27,8 @@ function EventDetails(props) {
         }
     });
     
-
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    let direction = isMobile?"column":"row"
     
     const eventToDisplay=()=>{
         let eventList=location.pathname==="/profile"? loggedIn.favorites:events
@@ -34,7 +36,7 @@ function EventDetails(props) {
     }
     const event = eventToDisplay();
     const mapState= {center: [event.venue.latitude, event.venue.longitude], zoom: 11,controls:["zoomControl"]};
-
+    const screenWidth = window.innerWidth
     
     useEffect(()=>{
        
@@ -50,16 +52,16 @@ function EventDetails(props) {
   
     
    return (<>
-            {coords ? <Stack sx={{display:'flex',justifyContent:"center",alignItems:"center",height:"100vh"}} direction ="row" spacing={4}>
-              <YMaps   query={{lang:'en_US',load:'package.full'}}>
-                   <Map defaultState={mapState}>
+            {coords ? <Stack sx={{display:'flex',justifyContent:"center",alignItems:"center",height:"100vh",mb:1}} direction ={direction} spacing={4}>
+             <YMaps   query={{lang:'en_US',load:'package.full'}}>
+                    <Map defaultState={mapState} width={isMobile? screenWidth: "auto"}>
                        <Placemark geometry={[coords.latitude,coords.longitude]}/>
-                   </Map>
+                   </Map> 
                    <ThemeProvider theme={theme}>
                       <Typography component="h6">Price: {event.entryprice}</Typography>
                       <Typography component="p" variant="caption">Date and time: {`${event.date},${event.openingtimes.doorsopen}`}</Typography>
                    </ThemeProvider>
-              </YMaps>
+            </YMaps>
               
            </Stack>
            : <Box sx={{ display: 'flex',justifyContent:"center",alignItems:"center" ,height:"100vh"}}>

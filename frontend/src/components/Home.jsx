@@ -30,7 +30,7 @@ function Home(props) {
     }
     
     return (
-       <Box  sx={{mt:5}}>
+       <Box  sx={{my:6}}>
             <Search/>
             <CheckBoxGroup />
             <DisplayEvents events={eventSubset()}/>
