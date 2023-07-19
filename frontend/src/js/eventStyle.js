@@ -12,6 +12,10 @@ const eventStyle={
         display:"flex",
         flexDirection:"row",
         justifyContent:"center"
+    },
+
+    image:{
+        maxWidth:"200px"
     }
 }
 

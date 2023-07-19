@@ -15,7 +15,7 @@ function DisplayEvents(props) {
 
     return (<>
        <Grid  container spacing={1} >
-           {props.events.map(event=>
+           {props.events?.map(event=>
             <Grid sx={{mt:3, mx:"auto"}}  key={event.id} xs={12} md={5} item >
               <Event id={event.id}  title={event.eventname} description={event.description} imageurl={choosePic(event)}/>
            </Grid>)}

@@ -5,8 +5,10 @@ import {UserContext} from "../context/UserContext";
 
 const PrivateRoute = ({children})=>{
     let {loggedIn}=useContext(UserContext);
+
+   
     
-    return loggedIn.name ?children :<Navigate to="/login"/>;
+    return loggedIn ?children :<Navigate to="/login"/>;
 }
 
 export default PrivateRoute;

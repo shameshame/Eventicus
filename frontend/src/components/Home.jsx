@@ -17,6 +17,7 @@ function Home(props) {
        const loadMostPopularEvents =  async()=>{
           let response = await axios.get(`http://localhost:8000`);
           dispatch({type:"FIND_EVENTS",payload:response.data.results})
+          
        }
        loadMostPopularEvents();
     },[])
@@ -34,6 +35,7 @@ function Home(props) {
             <Search/>
             <CheckBoxGroup />
             <DisplayEvents events={eventSubset()}/>
+            
         </Box>
        
     );

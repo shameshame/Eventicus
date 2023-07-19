@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from "@mui/material/Typography"
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 
-let theme = createTheme({
+let notFoundTheme = createTheme({
     typography:{
         fontFamily: ["Playfair Display", "serif"].join(','),
         fontSize: 50,
@@ -17,7 +17,7 @@ function NotFoundPage() {
     return (
         <Box sx={{display:'flex', flexDirection:"column",justifyContent:"center",alignItems:"center",height:"100vh"}}>
             <ErrorIcon sx={{ color:"#f44336"}} fontSize="large"/>
-            <ThemeProvider  theme={theme}>
+            <ThemeProvider  theme={notFoundTheme}>
                       <Typography  component="h2"> Error 404. Page not found</Typography>
             </ThemeProvider>
            
@@ -25,4 +25,5 @@ function NotFoundPage() {
     );
 }
 
+export { notFoundTheme }
 export default NotFoundPage;

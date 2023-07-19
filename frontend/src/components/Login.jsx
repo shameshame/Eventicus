@@ -5,31 +5,37 @@ import FormTemplate from "./FormTemplate";
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
+import {signInWithEmailAndPassword} from "firebase/auth"
+import {auth} from "../config/firebase-config.js"
 
 
 function Login(props) {
     
-    const [account,setAccount]=useState({username:"",password:""});
+    const [account,setAccount]=useState({email:"",password:""});
     let navigate=useNavigate();
     const{loggedIn,userAccounts,setLoggedIn}= useContext(UserContext);
-    const {username,password}=account;
+    const {email,password}=account;
     
-    function signIn(){
-        let found =  userAccounts.find(account=>account.username ===username && account.password ===password)
-        if (!found) throw Error("One or more details are incorrect");
-        setLoggedIn(found);
-        return found;
-    }
+    // function signIn(){
+    //     let found =  userAccounts.find(account=>account.username ===username && account.password ===password)
+    //     if (!found) throw Error("One or more details are incorrect");
+    //     setLoggedIn(found);
+    //     return found;
+
+    //     await signInWithEmailAndPassword(auth,account.email,account.password)
+
+    // }
     
-    function clickHandler(event){
+    const clickHandler =async (event)=>{
         event.preventDefault();
 
         try{
-          let loggedIn=signIn();
-        //   toast(`You logged in as ${loggedIn.name} `);
+          await signInWithEmailAndPassword(auth,account.email,account.password)
           navigate("/profile");
+          
         }catch(error){
         //    toast.error(error.message);
+        console.log(error.message)
         }
    }
     

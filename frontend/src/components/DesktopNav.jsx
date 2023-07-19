@@ -8,6 +8,8 @@ import {dropdownUser} from "../js/dropdown"
 import Menu from '@mui/material/Menu'
 import {useNavigate} from "react-router-dom"
 import DropdownItem from "./DropdownItem"
+import { updateCurrentUser } from 'firebase/auth';
+import {auth} from "../config/firebase-config.js"
 
 
 function DesktopNav(props) {
@@ -18,12 +20,18 @@ function DesktopNav(props) {
 
     
     function clickAccountIcon(event){
-        if(loggedIn.username){
+       
+        
+        if(loggedIn){
+            
             setAnchorEl(event.currentTarget)
         }
           
-        else
-          navigate("/login")
+        else{
+            console.log("I am here")
+            navigate("/login")
+        }
+         
     }
 
     function handleClose(){
@@ -35,7 +43,7 @@ function DesktopNav(props) {
             <IconButton id="account-button" style={navbarStyles.link} onClick={(event)=>clickAccountIcon(event)}
                         aria-haspopup ='true' aria-expanded={userMenuOpen ? "true":undefined}>
                  <AccountCircleIcon  style={navbarStyles.accountIcon}/>
-                  Hello, {loggedIn.name? loggedIn.name: `SignIn`}
+                  {loggedIn?.displayName || `SignIn`}
             </IconButton>
             <Menu open={userMenuOpen} 
               anchorEl={anchorEl} 
@@ -60,6 +68,7 @@ function DesktopNav(props) {
                      <DropdownItem key={index} icon={item.icon} label={item.label}/>
                   )}
             </Menu>
+            
        </Box>
     );
 }

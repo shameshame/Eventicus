@@ -19,6 +19,8 @@ const textFieldStyle = {
 }
 
 
+
+
 function FormTemplate(props) {
     const location = useLocation(); 
 
@@ -39,9 +41,9 @@ function FormTemplate(props) {
              
             {location.pathname!=="/login" && 
             <TextField onChange={event=>changeHandler(event)} name="name" sx={textFieldStyle} size="small" label="Name"  required/>}
-            <TextField sx={textFieldStyle} size="small" name="username"  label="Username" required
+            <TextField sx={textFieldStyle} size="small" name="email"  label="Username" required
                 onChange={event=>changeHandler(event)}
-               InputProps={{
+                InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
                          <AccountCircleIcon/>

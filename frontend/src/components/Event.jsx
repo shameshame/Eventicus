@@ -6,20 +6,28 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { createTheme, responsiveFontSizes,ThemeProvider } from '@mui/material/styles';
 import StarIcon from '@mui/icons-material/Star';
 import {useState,useContext} from "react";
+import { db } from "../config/firebase-config.js";
+import {collection,addDoc,query,getDocs,getDoc
+        ,deleteDoc,doc,onSnapshot,where
+       } 
+        from "firebase/firestore";
 import Paper from '@mui/material/Paper';
+import eventStyle from "../js/eventStyle";
 
 function Event(props) {
    
    
-    const {userAccounts,setUserAccounts,
-           loggedIn,setLoggedIn}=useContext(UserContext);
-    const {favorites,username}=loggedIn;
+    const {favorites,
+           loggedIn}=useContext(UserContext);
     const location= useLocation()
     const {state}=useContext(EventContext);
     const {events}=state;
     const navigate=useNavigate();
     let theme = createTheme();
     theme = responsiveFontSizes(theme);
+    const favsCollectionRef = collection(db, "favorites");
+
+    
 
     const textStyle={
       margin: theme.spacing(1.2, 'auto') 
@@ -29,37 +37,37 @@ function Event(props) {
        navigate(`/events/${props.id}`)
     }
 
-    function addToFavorites(){
-          let found = userAccounts.find(user=>user.username===loggedIn.username);
-         
+    const addToFavorites = async()=>{
+          
       
-         if(loggedIn.username){
-            let event = events.find(event=>event.id === props.id);
-            setLoggedIn((loggedIn)=>{return {...loggedIn,favorites:[...favorites,event]} })
-            setUserAccounts((userAccounts)=>{return [...userAccounts.filter(account=>account.username!==found.username),{...loggedIn,favorites:[...favorites,event]}]})
+         if(loggedIn){
+           try{
+               let favEvent ={...events.find(event=>event.id === props.id),owner:`${loggedIn.email}`};
+               await addDoc(favsCollectionRef,favEvent)
+              }catch(error){
+                console.log(error.message)
+             } 
           }
 
           else navigate("/login")
     }
 
-    function removeFromFavorites(){
-      let found = userAccounts.find(user=>user.username===loggedIn.username);
-      
-      let event = favorites.find(event=>event.id === props.id);
-      let afterRemoval = favorites.filter(favorite=>favorite.id!==event.id)
-      setLoggedIn(()=>{return {...loggedIn,favorites:afterRemoval} })
-      setUserAccounts((userAccounts)=>{return [...userAccounts.filter(account=>account.username!==found.username),{...loggedIn,favorites:afterRemoval}]})
-    }
-    
-    
-    
+    const removeFromFavorites = async ()=>{
+     try{
+          const userFavs_query = query(favsCollectionRef, where('owner','==',`${loggedIn.email}`))
+          const eventsToDelete= await getDocs(query(userFavs_query,where('id','==',`${props.id}`)))
+          eventsToDelete.forEach( (event)=>{deleteDoc(event.ref)})
+       }catch(error){
+          console.log(error.message)
+        } 
+      }
     
     return (
       <Paper elevation={3} sx={{height: "100%",p:"20px"}}>
        
        <Grid sx={{ flexGrow: 1}}   container spacing = {2}>
            <Grid sx={{margin:"auto"}} item  md={5}>
-              <Box  component="img"  src={props.imageurl}/>
+              <Box style={eventStyle.image}   component="img"  src={props.imageurl}/>
            </Grid>
             
             <Grid  style={{textAlign:"center"}} item xs={12} md={6} lg={4}>
