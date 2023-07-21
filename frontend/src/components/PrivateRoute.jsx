@@ -8,7 +8,7 @@ const PrivateRoute = ({children})=>{
 
    
     
-    return loggedIn ?children :<Navigate to="/login"/>;
+    return loggedIn.email ?children :<Navigate to="/login"/>;
 }
 
 export default PrivateRoute;

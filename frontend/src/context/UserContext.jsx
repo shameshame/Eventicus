@@ -17,17 +17,20 @@ function UserContextProvider({children}) {
     
 
     useEffect(()=>{
-       const favs_Query=query(favsCollectionRef,where('owner','==',`${loggedIn.email}`))
        
-        const unsubscribe= onSnapshot(favs_Query,(querySnapshot)=>{
-                let dataToPush = []
+      
+           const favs_Query=query(favsCollectionRef,where('owner','==',`${loggedIn.email}`))
+           const unsubscribe= onSnapshot(favs_Query,(querySnapshot)=>{
+                   let dataToPush = []
            
-                querySnapshot.forEach((doc) => {
-                    dataToPush.push(doc.data());
-                });
+                   querySnapshot.forEach((doc) => {
+                       dataToPush.push(doc.data());
+                   });
                 
-                setFavorites(dataToPush);
-        })
+                   setFavorites(dataToPush);
+           })
+
+      
 
     //    return ()=>{
     //       unsubscribe()

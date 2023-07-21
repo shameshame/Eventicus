@@ -20,18 +20,7 @@ function DesktopNav(props) {
 
     
     function clickAccountIcon(event){
-       
-        
-        if(loggedIn){
-            
-            setAnchorEl(event.currentTarget)
-        }
-          
-        else{
-            console.log("I am here")
-            navigate("/login")
-        }
-         
+       loggedIn.email ? setAnchorEl(event.currentTarget) : navigate("/login")
     }
 
     function handleClose(){

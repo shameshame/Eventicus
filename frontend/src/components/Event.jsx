@@ -1,14 +1,14 @@
 import {Box,Typography,Button,Grid,IconButton,Tooltip} from "@mui/material"
 import {useNavigate,useLocation} from "react-router-dom"
 import {UserContext} from "../context/UserContext";
-import {EventContext} from "../context/EventContext";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { createTheme, responsiveFontSizes,ThemeProvider } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import StarIcon from '@mui/icons-material/Star';
-import {useState,useContext} from "react";
+import {useContext} from "react";
 import { db } from "../config/firebase-config.js";
-import {collection,addDoc,query,getDocs,getDoc
-        ,deleteDoc,doc,onSnapshot,where
+import {collection,addDoc,query,getDocs
+        ,deleteDoc,where
        } 
         from "firebase/firestore";
 import Paper from '@mui/material/Paper';
@@ -16,19 +16,21 @@ import eventStyle from "../js/eventStyle";
 
 function Event(props) {
    
-   
-    const {favorites,
-           loggedIn}=useContext(UserContext);
+    const {description,imageurl,largeimageurl,title,id}=props
+    const {loggedIn}=useContext(UserContext);
     const location= useLocation()
-    const {state}=useContext(EventContext);
-    const {events}=state;
     const navigate=useNavigate();
     let theme = createTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'))
     theme = responsiveFontSizes(theme);
     const favsCollectionRef = collection(db, "favorites");
 
-    
+   
+    const choosePic = ()=>{
+        return isMobile ? imageurl :largeimageurl
+    }
 
+    
     const textStyle={
       margin: theme.spacing(1.2, 'auto') 
     }
@@ -40,10 +42,10 @@ function Event(props) {
     const addToFavorites = async()=>{
           
       
-         if(loggedIn){
+         if(loggedIn.email){
            try{
-               let favEvent ={...events.find(event=>event.id === props.id),owner:`${loggedIn.email}`};
-               await addDoc(favsCollectionRef,favEvent)
+                let favEvent ={imageurl,largeimageurl,description,title,id,owner:`${loggedIn.email}`};
+                await addDoc(favsCollectionRef,favEvent)
               }catch(error){
                 console.log(error.message)
              } 
@@ -67,13 +69,13 @@ function Event(props) {
        
        <Grid sx={{ flexGrow: 1}}   container spacing = {2}>
            <Grid sx={{margin:"auto"}} item  md={5}>
-              <Box style={eventStyle.image}   component="img"  src={props.imageurl}/>
+              <Box style={eventStyle.image}   component="img"  src={choosePic()}/>
            </Grid>
             
             <Grid  style={{textAlign:"center"}} item xs={12} md={6} lg={4}>
                <ThemeProvider theme={theme}>
-                  <Typography style={textStyle}  variant="h6" component="h6">{props.title}</Typography>
-                  <Typography style={textStyle} variant="caption" component="p">{props.description}</Typography>
+                  <Typography style={textStyle}  variant="h6" component="h6">{title}</Typography>
+                  <Typography style={textStyle} variant="caption" component="p">{description}</Typography>
                 </ThemeProvider>
             </Grid>
             <Grid  item xs={12} md={3} >

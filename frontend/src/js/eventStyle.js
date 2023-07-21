@@ -15,7 +15,8 @@ const eventStyle={
     },
 
     image:{
-        maxWidth:"200px"
+        maxWidth:"200px",
+       
     }
 }
 
