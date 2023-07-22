@@ -5,7 +5,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { createTheme, responsiveFontSizes,ThemeProvider } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import StarIcon from '@mui/icons-material/Star';
-import {useContext} from "react";
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import {useContext,useState} from "react";
 import { db } from "../config/firebase-config.js";
 import {collection,addDoc,query,getDocs
         ,deleteDoc,where
@@ -13,11 +14,15 @@ import {collection,addDoc,query,getDocs
         from "firebase/firestore";
 import Paper from '@mui/material/Paper';
 import eventStyle from "../js/eventStyle";
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Event(props) {
    
     const {description,imageurl,largeimageurl,title,id}=props
+
     const {loggedIn}=useContext(UserContext);
+    const [fav,setFav]=useState(false)
     const location= useLocation()
     const navigate=useNavigate();
     let theme = createTheme();
@@ -41,13 +46,19 @@ function Event(props) {
 
     const addToFavorites = async()=>{
           
-      
+         
          if(loggedIn.email){
            try{
+                setFav(true)
                 let favEvent ={imageurl,largeimageurl,description,title,id,owner:`${loggedIn.email}`};
                 await addDoc(favsCollectionRef,favEvent)
+                toast.success("Added Successfully",{theme:"colored",hideProgressBar: true})
               }catch(error){
-                console.log(error.message)
+                toast.error("Addition to favorites failed",{
+                  position: toast.POSITION.TOP_CENTER,
+                  theme:"colored",
+                  hideProgressBar: true
+                });
              } 
           }
 
@@ -56,11 +67,16 @@ function Event(props) {
 
     const removeFromFavorites = async ()=>{
      try{
+          setFav(false)
           const userFavs_query = query(favsCollectionRef, where('owner','==',`${loggedIn.email}`))
           const eventsToDelete= await getDocs(query(userFavs_query,where('id','==',`${props.id}`)))
           eventsToDelete.forEach( (event)=>{deleteDoc(event.ref)})
        }catch(error){
-          console.log(error.message)
+          toast.error(error.message,{
+            position: toast.POSITION.TOP_CENTER,
+            theme:"colored",
+            hideProgressBar: true
+          });
         } 
       }
     
@@ -85,9 +101,11 @@ function Event(props) {
                     </Button>
 
                     {location.pathname==="/"
-                     ? <Tooltip  title="Add to Favorites"> 
-                           <IconButton onClick={addToFavorites}>
-                             <StarIcon color="warning" sx={{mx:"auto",mt:2}} />
+                     ? <Tooltip  title={fav? "Remove from favorites":"Add to Favorites"}> 
+                           <IconButton onClick={fav?removeFromFavorites:addToFavorites}>
+                                {fav ? <StarIcon  color="warning" sx={eventStyle.icon} /> 
+                                     : <StarBorderIcon color="warning" sx={eventStyle.icon}/>
+                                }
                           </IconButton>
                        </Tooltip>
                      : <Tooltip  title="Remove from favorites"> 
@@ -98,7 +116,7 @@ function Event(props) {
                   </Grid>
             </Grid>
          </Grid>
-       
+        <ToastContainer/>
       </Paper>
     );
 }

@@ -16,7 +16,12 @@ const eventStyle={
 
     image:{
         maxWidth:"200px",
-       
+    },
+
+    icon:{
+        color:"warning",
+        mx:"auto",
+        mt:2
     }
 }
 

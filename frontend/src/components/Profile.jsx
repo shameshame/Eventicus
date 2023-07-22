@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import {notFoundTheme} from "./NotFoundPage"
 import {ThemeProvider} from '@mui/material/styles';
 import Typography from "@mui/material/Typography";
+import { ToastContainer } from 'react-toastify';
 
 
 
@@ -26,7 +27,7 @@ function Profile(props) {
           </Box>
         }
 
-        
+        <ToastContainer/>
         </Box>
     );
 }

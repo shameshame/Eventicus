@@ -8,6 +8,7 @@ import { createTheme } from '@mui/material/styles';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { ToastContainer } from 'react-toastify';
 
 
 const theme=createTheme()
@@ -61,6 +62,7 @@ function FormTemplate(props) {
                 }}
             />
             <Button onClick={(event)=>clickHandler(event)} variant="contained" color="warning">Submit</Button>
+            <ToastContainer />
         </Container>
     );
 }

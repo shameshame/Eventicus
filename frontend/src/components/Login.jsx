@@ -7,24 +7,16 @@ import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import {signInWithEmailAndPassword} from "firebase/auth"
 import {auth} from "../config/firebase-config.js"
+import {toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 function Login(props) {
     
     const [account,setAccount]=useState({email:"",password:""});
     let navigate=useNavigate();
-    const{loggedIn,userAccounts,setLoggedIn}= useContext(UserContext);
-    const {email,password}=account;
     
-    // function signIn(){
-    //     let found =  userAccounts.find(account=>account.username ===username && account.password ===password)
-    //     if (!found) throw Error("One or more details are incorrect");
-    //     setLoggedIn(found);
-    //     return found;
-
-    //     await signInWithEmailAndPassword(auth,account.email,account.password)
-
-    // }
     
     const clickHandler =async (event)=>{
         event.preventDefault();
@@ -34,8 +26,12 @@ function Login(props) {
           navigate("/profile");
           
         }catch(error){
-        //    toast.error(error.message);
-        console.log(error.message)
+           toast.error("One or more credentials are incorrect",{
+            position: toast.POSITION.BOTTOM_CENTER,
+            theme:"colored",
+            hideProgressBar: true
+        });
+        
         }
    }
     
