@@ -15,7 +15,9 @@ function Home(props) {
     
     useEffect(()=>{
        const loadMostPopularEvents =  async()=>{
-          let response = await axios.get(`http://localhost:8000`);
+          
+          let response= await axios.get(`http://localhost:8000`)
+        //   let response = await axios.get(`http://www.skiddle.com/api/v1/events/search/?api_key=${process.env.REACT_APP_SKIDDLE_API_KEY}&order=bestselling&imagefilter=1&description=1`);
           dispatch({type:"FIND_EVENTS",payload:response.data.results})
           
        }
