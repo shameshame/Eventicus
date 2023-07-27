@@ -43,8 +43,8 @@ function EventDetails(props) {
         const fetchCoords = async ()=>{
           let {country,town,name}= event.venue 
           let address = `${town} ${name}`; 
-          let response = axios.get(`http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_positionStack_key}&query=${address}&country=${country}&region=${town}&limit=1`)
-        //   let response = await axios.get(`http://localhost:8000/details?address=${address}&country=${event.venue.country}&region=${event.venue.town}`)
+        //   let response = axios.get(`http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_positionStack_key}&query=${address}&country=${country}&region=${town}&limit=1`)
+          let response = await axios.get(`http://details?address=${address}&country=${event.venue.country}&region=${event.venue.town}`)
           console.log(response)
           let {latitude,longitude}=response.data
           setCoords({latitude:Number(latitude),longitude:Number(longitude)});

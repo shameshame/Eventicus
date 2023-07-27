@@ -33,9 +33,6 @@ function SignUp(props) {
              const {name,email,password}=newAccount
              await createUserWithEmailAndPassword(auth,email,password)
              await updateProfile(auth.currentUser, {displayName:name})
-             
-             
-             
              navigate("/profile");
          }catch(error){
         //    toast.error(error.message);
